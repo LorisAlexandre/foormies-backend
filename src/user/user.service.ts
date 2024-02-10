@@ -9,7 +9,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async findOne(query: string): Promise<User> {
-    return this.userModel.findOne({ query });
+    return this.userModel.findOne({ email: query });
   }
 
   async createOne(registerDto: RegisterDto): Promise<User> {

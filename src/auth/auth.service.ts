@@ -23,7 +23,7 @@ export class AuthService {
       throw new HttpException('User not found', 404);
     }
 
-    if (!bcrypt.compareSync(user.password, loginDto.password)) {
+    if (!bcrypt.compareSync(loginDto.password, user.password)) {
       throw new UnauthorizedException();
     }
 
@@ -46,7 +46,12 @@ export class AuthService {
       throw new HttpException('User already exists', 409);
     }
 
-    const createdUser = await this.userService.createOne(registerDto);
+    const password = bcrypt.hashSync(registerDto.password, 10);
+
+    const createdUser = await this.userService.createOne({
+      password,
+      email: registerDto.email,
+    });
 
     const payload = { sub: createdUser._id, email: createdUser.email };
 
