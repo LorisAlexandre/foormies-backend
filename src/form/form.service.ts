@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Form } from 'src/schemas';
 import { CreateFormDto, UpdateFormDto } from './dtos';
+import { CreateQuestionDto } from 'src/question/dtos';
 
 @Injectable()
 export class FormService {
@@ -16,28 +17,54 @@ export class FormService {
 
   async updateForm(
     updateFormDto: UpdateFormDto,
-    _id: string,
+    formId: string,
     userId: string,
   ): Promise<Form> {
-    const form = await this.formModel.findById(_id);
+    const authorized = await this.verifUserId(userId, formId);
 
-    if (userId !== form.userId) throw new UnauthorizedException();
+    if (authorized) {
+      const updatedForm = await this.formModel.findByIdAndUpdate(
+        formId,
+        { ...updateFormDto },
+        { new: true },
+      );
 
-    const updatedForm = await this.formModel.findByIdAndUpdate(
-      _id,
-      { ...updateFormDto },
-      { new: true },
-    );
-
-    return updatedForm;
+      return updatedForm;
+    }
   }
 
-  async deleteOne(_id: string, userId: string) {
-    const form = await this.formModel.findById(_id);
+  async addQuestion(
+    formId: string,
+    userId: string,
+    question: CreateQuestionDto,
+  ): Promise<Form> {
+    const authorized = await this.verifUserId(userId, formId);
+
+    if (authorized) {
+      const updatedForm = await this.formModel.findByIdAndUpdate(
+        formId,
+        {
+          $push: { questions: question },
+        },
+        { new: true },
+      );
+
+      return updatedForm;
+    }
+  }
+
+  async verifUserId(userId: string, formId: string): Promise<boolean> {
+    const form = await this.formModel.findById(formId);
 
     if (userId !== form.userId) throw new UnauthorizedException();
 
-    await this.formModel.findByIdAndDelete(_id);
+    return true;
+  }
+
+  async deleteOne(formId: string, userId: string): Promise<void> {
+    const authorized = await this.verifUserId(userId, formId);
+
+    if (authorized) await this.formModel.findByIdAndDelete(formId);
 
     return;
   }
@@ -47,8 +74,12 @@ export class FormService {
     return forms;
   }
 
-  async getById(id: string): Promise<Form> {
-    const form = await this.formModel.findById(id);
-    return form;
+  async getById(formId: string, userId: string): Promise<Form> {
+    const authorized = await this.verifUserId(userId, formId);
+
+    if (authorized) {
+      const form = await this.formModel.findById(formId);
+      return form;
+    }
   }
 }

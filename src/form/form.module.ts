@@ -15,5 +15,6 @@ import { Form, FormSchema } from 'src/schemas';
   ],
   providers: [FormService],
   controllers: [FormController],
+  exports: [FormService],
 })
 export class FormModule {}

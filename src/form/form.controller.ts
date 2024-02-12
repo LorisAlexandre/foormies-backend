@@ -31,15 +31,15 @@ export class FormController {
   @Patch('update/:id')
   updateForm(
     @Body() updateFormDto: UpdateFormDto,
-    @Param('id') id: string,
+    @Param('id') formId: string,
     @Req() req,
   ) {
-    return this.formService.updateForm(updateFormDto, id, req.user.sub);
+    return this.formService.updateForm(updateFormDto, formId, req.user.sub);
   }
 
   @Delete('delete/:id')
-  deleteOne(@Param('id') id: string, @Req() req) {
-    return this.formService.deleteOne(id, req.user.sub);
+  deleteOne(@Param('id') formId: string, @Req() req) {
+    return this.formService.deleteOne(formId, req.user.sub);
   }
 
   @Get('allByUser')
@@ -48,7 +48,7 @@ export class FormController {
   }
 
   @Get('byId/:id')
-  getById(@Param('id') id: string) {
-    return this.formService.getById(id);
+  getById(@Param('id') formId: string, @Req() req) {
+    return this.formService.getById(formId, req.user.sub);
   }
 }
