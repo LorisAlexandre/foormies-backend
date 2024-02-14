@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { ObjectId } from 'mongoose';
+import { Form } from './form.schema';
+import { User } from './user.schema';
 
 export const inputTypes = [
   'button',
@@ -40,8 +42,8 @@ export const InputPropsSchema = new mongoose.Schema({
   maxValue: { type: Number, require: false },
   pattern: { type: String, require: false },
   multiple: { type: Boolean, require: false },
-  required: { type: Boolean, require: false },
   rank: { type: Number, require: false },
+  requiredQuestion: { type: Boolean, require: false },
 });
 
 @Schema()
@@ -72,6 +74,12 @@ export class Question {
 
   @Prop({ type: Number, required: false })
   section: number;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Form' })
+  form: Form;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  userId: string;
 
   _id: ObjectId;
 }

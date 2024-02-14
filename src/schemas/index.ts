@@ -1,13 +1,17 @@
-export { User, UserSchema } from './user.schema';
 export {
   Form,
-  FormSchema,
   FormCosmeticSchema,
+  FormSchema,
   FormSettingsSchema,
 } from './form.schema';
+
 export {
+  InputPropsSchema,
   Question,
   QuestionSchema,
-  InputPropsSchema,
   inputTypes,
 } from './question.schema';
+
+export { User, UserSchema, UserSettingsSchema } from './user.schema';
+
+export { Answer, AnswerSchema } from './answer.schema';

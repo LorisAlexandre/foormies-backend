@@ -46,10 +46,10 @@ export class Form {
 
   @Prop({
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Question',
+    ref: Question.name,
     required: false,
   })
-  questions: Question[];
+  questions: Array<Question>;
 
   @Prop({ type: FormSettingsSchema, required: true, default: () => ({}) })
   settings: typeof FormSettingsSchema;

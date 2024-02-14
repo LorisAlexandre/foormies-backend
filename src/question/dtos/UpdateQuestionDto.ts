@@ -1,6 +1,6 @@
-import { Form, InputPropsSchema } from 'src/schemas';
+import { InputPropsSchema } from 'src/schemas';
 
-export class CreateQuestionDto {
+export class UpdateQuestionDto {
   statement: string;
   inputProps: typeof InputPropsSchema;
   confidential: boolean;
@@ -12,6 +12,4 @@ export class CreateQuestionDto {
     publicId: string;
   };
   section: number;
-  userId: string;
-  form: Form;
 }

@@ -8,7 +8,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { UpdateFormDto } from './dtos';
+import { CreateFormDto, UpdateFormDto } from './dtos';
 import { FormService } from './form.service';
 
 @Controller('form')
@@ -16,16 +16,13 @@ export class FormController {
   constructor(private formService: FormService) {}
 
   @Post('create')
-  createForm(
-    @Body()
-    { projectName, description }: { projectName: string; description: string },
-    @Req() req,
-  ) {
-    return this.formService.createForm({
-      projectName,
-      description,
-      userId: req.user.sub,
-    });
+  createForm(@Body() createFormDto: CreateFormDto, @Req() req) {
+    return this.formService.createForm(
+      {
+        ...createFormDto,
+      },
+      req.user.sub,
+    );
   }
 
   @Patch('update/:id')

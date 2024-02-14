@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { QuestionModule } from './question/question.module';
 import { FormModule } from './form/form.module';
+import { AnswerModule } from './answer/answer.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { FormModule } from './form/form.module';
     AuthModule,
     FormModule,
     QuestionModule,
+    AnswerModule,
   ],
   controllers: [],
   providers: [],
