@@ -1,17 +1,27 @@
-import { Form, InputPropsSchema } from 'src/schemas';
+import { ObjectId } from 'mongoose';
+import { Form } from 'src/schemas';
 
 export class CreateQuestionDto {
-  statement: string;
-  inputProps: typeof InputPropsSchema;
-  confidential: boolean;
   title: string;
-  instructions: string;
+  questionType: string;
   hint: string;
-  file: {
+  instructions: string;
+  instructionFile: {
     url: string;
     publicId: string;
   };
-  section: number;
-  userId: string;
+
+  options: string[];
+  multiple: boolean;
+  confidential: boolean;
+  requiredAnswer: boolean;
+
+  minLength: number;
+  maxLength: number;
+  minValue: number;
+  maxValue: number;
+
+  _id: ObjectId;
   form: Form;
+  userId: string;
 }

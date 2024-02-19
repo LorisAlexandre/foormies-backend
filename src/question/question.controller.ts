@@ -15,14 +15,15 @@ import { CreateQuestionDto, UpdateQuestionDto } from './dtos';
 export class QuestionController {
   constructor(private questionService: QuestionService) {}
 
-  @Post('create')
+  @Post('create/:id')
   createOne(
     @Req() req,
-    @Body() body: { createQuestionDto: CreateQuestionDto; formId: string },
+    @Body() createQuestionDto: CreateQuestionDto,
+    @Param('id') formId: string,
   ) {
     return this.questionService.createOne(
-      body.formId,
-      body.createQuestionDto,
+      formId,
+      createQuestionDto,
       req.user.sub,
     );
   }

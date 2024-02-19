@@ -41,7 +41,7 @@ export class AnswerService {
     createAnswerDto: CreateAnswerDto,
   ): Promise<boolean> {
     const requiredQuestions = form.questions
-      .filter((q) => q.inputProps['requiredQuestion'])
+      .filter((q) => q.requiredAnswer)
       .map((q) => q._id.toString());
 
     for (const questionId of requiredQuestions) {

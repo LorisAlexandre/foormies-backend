@@ -1,15 +1,20 @@
-import { InputPropsSchema } from 'src/schemas';
-
 export class UpdateQuestionDto {
-  statement: string;
-  inputProps: typeof InputPropsSchema;
-  confidential: boolean;
   title: string;
-  instructions: string;
+  questionType: string;
   hint: string;
-  file: {
+  instructions: string;
+  instructionFile: {
     url: string;
     publicId: string;
   };
-  section: number;
+
+  options: string[];
+  multiple: boolean;
+  confidential: boolean;
+  requiredAnswer: boolean;
+
+  minLength: number;
+  maxLength: number;
+  minValue: number;
+  maxValue: number;
 }
