@@ -23,8 +23,6 @@ export class FormService {
     formId: string,
     userId: string,
   ): Promise<Form> {
-    console.log(userId);
-
     const authorized = await this.verifUserId(userId, formId);
 
     if (authorized) {

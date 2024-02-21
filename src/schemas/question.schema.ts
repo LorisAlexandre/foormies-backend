@@ -34,7 +34,7 @@ export class Question {
   @Prop({ required: true, type: String, enum: inputTypes, default: 'text' })
   questionType: string;
 
-  @Prop({ required: true, type: String, default: '' })
+  @Prop({ required: true, type: String, default: 'No instructions' })
   instructions: string;
 
   @Prop({ type: Object, required: false, default: () => {} })

@@ -45,7 +45,7 @@ export class Form {
   description: string;
 
   @Prop({
-    type: [mongoose.Schema.Types.ObjectId],
+    type: [Question],
     ref: Question.name,
     required: false,
   })

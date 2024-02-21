@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Question } from 'src/schemas';
+import { Form, Question } from 'src/schemas';
 import { CreateQuestionDto, UpdateQuestionDto } from './dtos';
 import { FormService } from 'src/form/form.service';
 
@@ -46,7 +46,10 @@ export class QuestionService {
     }
   }
 
-  async deleteOne(userId: string, questionId: string): Promise<void> {
+  async deleteOne(
+    userId: string,
+    questionId: string,
+  ): Promise<{ deleted: boolean }> {
     const authorized = await this.verifUserId(userId, questionId);
     const question = await this.questionModel.findById(questionId);
 
@@ -57,17 +60,18 @@ export class QuestionService {
         userId,
       );
       await this.questionModel.findByIdAndDelete(questionId);
+      return { deleted: true };
     }
   }
 
-  async deleteAll(userId: string, formId): Promise<void> {
+  async deleteAll(userId: string, formId): Promise<{ deleted: boolean }> {
     const authorized = this.formService.verifUserId(userId, formId);
 
     if (authorized) {
       await this.formService.removeAllQuestion(userId, formId);
       await this.questionModel.deleteMany({ form: { _id: formId } });
 
-      return;
+      return { deleted: true };
     }
   }
 
